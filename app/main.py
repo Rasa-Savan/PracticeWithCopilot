@@ -127,7 +127,7 @@ async def root():
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends(NoneType)]
 ):
     user = authenticate_user(fake_users_db, form_data.username, form_data.password)
     if not user:
