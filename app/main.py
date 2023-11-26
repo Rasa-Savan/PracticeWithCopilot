@@ -34,9 +34,9 @@ class TokenData(BaseModel):
 
 class User(BaseModel):
     username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
+    email: Optional[str] = None
+    full_name: Optional[str] = None
+    disabled: Optional[bool] = None
 
 
 class CreateUser(BaseModel):
@@ -119,9 +119,11 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
+
 @app.get("/")
 async def root():
     return {"message": "Test success"}
+
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(
@@ -166,6 +168,7 @@ async def create_user(
     fake_users_db[user.username] = user_dict
 
     return {"message": "User created successfully", "user": fake_users_db}
+
 
 @app.post("/post_users")
 async def create_user(
