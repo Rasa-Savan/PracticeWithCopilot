@@ -119,6 +119,9 @@ async def get_current_active_user(
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
 
+@app.get("/")
+async def root():
+    return {"message": "Test success"}
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(
