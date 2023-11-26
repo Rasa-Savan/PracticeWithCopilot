@@ -58,7 +58,7 @@ jobs:
           key: ${{ secrets.AWS_PRIVATE_KEY  }}
           port: 22
           script: |
-            sudo docker rm -f fastapi-app 
+            sudo docker rm -f fastapi
             sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest
             sleep 10 
             sudo docker run -d -p 9000:80 --name fastapi ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest
