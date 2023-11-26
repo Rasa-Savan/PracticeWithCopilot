@@ -64,6 +64,6 @@ jobs:
             sudo docker run -d -p 9000:80 --name fastapi ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest
             sudo docker ps 
             sleep 10 
-            curl localhost:9000
+            curl -X 'POST' 'http://localhost:8000/token' -H 'accept: application/json' -H 'Content-Type: application/x-www-form-urlencoded' -d 'grant_type=&username=johndoe&password=secret&scope=&client_id=&client_secret='
             ls 
             sudo docker images
