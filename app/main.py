@@ -126,7 +126,9 @@ async def root():
 
 
 @app.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+async def login_for_access_token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
+):
     user = authenticate_user(fake_users_db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
@@ -142,18 +144,22 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
 
 @app.get("/users/me/", response_model=User)
-async def read_users_me(current_user: User = Depends(get_current_active_user)):
+async def read_users_me(
+    current_user: Annotated[User, Depends(get_current_active_user)]
+):
     return current_user
 
 
 @app.get("/users/me/items/")
-async def read_own_items(current_user: User = Depends(get_current_active_user)):
+async def read_own_items(
+    current_user: Annotated[User, Depends(get_current_active_user)]
+):
     return [{"item_id": "Foo", "owner": current_user.username}]
 
 
 @app.post("/post_users")
 async def create_user(
-    user: CreateUser, current_user: User = Depends(get_current_active_user)
+    user: CreateUser, current_user: Annotated[User, Depends(get_current_active_user)]
 ):
     if user.username in fake_users_db:
         raise HTTPException(status_code=400, detail="Username already exists")
